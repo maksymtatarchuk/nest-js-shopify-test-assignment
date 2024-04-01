@@ -13,12 +13,12 @@ export class OrdersController {
 
         switch (platform) {
             case 'shopify':
-                let shopifyOrders: string[] = await this.shopifyService.getOrdersList();
+                let shopifyOrders = await this.shopifyService.getOrdersList();
                 result = shopifyOrders.map((order: any) => new OrderModel(order));
                 break
 
             default:
-                throw new BadRequestException('Service not found!');
+                return new BadRequestException('Service not found!');
         };
 
         return result

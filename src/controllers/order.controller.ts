@@ -9,12 +9,18 @@ export class OrderController {
 
     @Get(':platform/:id')
     async getOrder(@Param('platform') platform: string, @Param('id') id: string): Promise<any> {
+        let result: any;
+
         switch (platform) {
             case 'shopify':
                 let shopifyOrder = await this.shopifyService.getOrderByID(id);
-                return JSON.stringify(new OrderModel(shopifyOrder));
+                result = JSON.stringify(new OrderModel(shopifyOrder));
+                break;
+
             default:
-                throw new BadRequestException('Service not found!');
+                return new BadRequestException('Service not found!');
         };
+
+        return result;
     }
 }
